@@ -1,88 +1,41 @@
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    .page{
-        margin: 0;
-        padding: 0;
-        height: 1000px;
-        font-family: Arial, Helvetica, sans-serif;
-        background-color:#EEEEEE ;
-    }
-    .container-principal{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding-top: 10px;
-    }
-    h3{
-        padding-right: 20px;
-        margin-left: 10px;
-    }
-    .button{
-        padding: 6px;
-        border-radius: 5px;
-        border: 2px solid #FFFF;
-        background-color:#dbdde0 ;
-        color: #4b4a4a;
-    }
-    .container-header-grid .row{
-        background-color:#79B8FF;
-        border: 1px solid #B5BAC2;
-    }
-    
-    .row{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        background-color:#d2e7ff ;
-    }
-    .col{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-        height: 65px;
-        border: 1px solid black;
-    }
-
-</style>
 <div class="page">
     <div class="container-principal">
         <h3>Hay 0 equipos!</h3>
-        <button id="agregar-equipos" class="button">Agregar</button>
+        <button id="agregar-equipos" class="button"><a href="/agregar">Agregar</a></button>
     </div>
     <div class="container-header-grid">
-        <div class="row">
-            <div class="col">
-                <b>Nombre Equipo</b>
-            </div>
-            <div class="col">
-                <b>País</b>
-            </div>
-            <div class="col">
-                <b>Acción</b>
-            </div>
+        <div class="header-grid">
+                <ul>
+                    <li><b>Nombre Equipo</b></li>
+                </ul>
+                <ul>
+                    <li><b>País</b></li>
+                </ul>
+                <ul>
+                    <li><b>Acción</b></li>
+                </ul>
         </div>
     </div>
     <div class="container-grid">
-        <div class="row">
-            <div class="col">
-                <img name="escudo" class="img-escudo" src="" alt="escudo">
-                <p name="nombre-equipo">Equipo</p>
-            </div>
-            <div class="col">
-                <p name="pais-equipo">Pais</p>
-            </div>
-            <div class="col">
-                 <button name="ver" class="button">Ver</button>
-                 <button name="editar" class="button">Editar</button>
-                 <button name="eliminar" class="button">Eliminar</button>
-            </div>
+        {{#each equipos}}
+        <div class="grid">
+            <ul class="lista-nombre-equipo">
+                <li><img src="/imagenes/{{data.nombreArchivo}}" alt="logoEquipo"></li>
+            
+               <li>{{nombre}}</li>
+           
+            </ul>
+            
+            <ul class="lista-paises">
+                <li>PaisEquipo</li>
+            </ul>
+            <ul class="lista-botones">
+                <li><button class="button"><a href="">Ver</a></button></li>
+                <li><button class="button"><a href="">Editar</a></button></li>
+                <li><button class="button"><a href="">Eliminar</a></button></li>
+            </ul>
         </div>
-       
+        {{/each}}
+      
     </div>
 </div>
