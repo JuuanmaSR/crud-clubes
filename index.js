@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* eslint-disable no-console */
 /* eslint-disable eol-last */
 /* eslint-disable no-unused-vars */
@@ -18,16 +19,12 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(`${__dirname}/public`)));
 app.use(express.static(`${__dirname}/uploads`));
 
-const equipos = [
-  { nombre: 'River' },
-  { nombre: 'Boca' },
-  { nombre: 'independiente' },
-];
+const equipos = require('./data/equipos.json');
 
-// Route
+// Routing
 app.get('/', (req, res) => {
   res.render('inicio', {
-    layout: 'home',
+    layout: 'index',
     style: 'inicio.css',
     equipos,
 
@@ -37,21 +34,21 @@ app.get('/', (req, res) => {
 // Agregar
 app.get('/agregar', (req, res) => {
   res.render('agregar', {
-    layout: 'home',
+    layout: 'index',
     style: 'agregar.css',
   });
 });
 
 app.post('/agregar', (req, res) => {
   res.render('agregar', {
-    layout: 'home',
+    layout: 'index',
   });
 });
 
 //
 app.get('/equipo/:id/ver', (req, res) => {
   res.render('ver', {
-    layout: 'home',
+    layout: 'index',
     style: 'ver.css',
   });
 });
