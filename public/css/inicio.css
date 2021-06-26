@@ -1,0 +1,86 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.page{
+    height: 1000px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:#EEEEEE ;
+}
+a{
+    text-decoration: none;
+    color:#4b4a4a ;
+}
+.container-principal{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+}
+h3{
+    padding-right: 20px;
+    margin-left: 10px;
+}
+.button{
+    padding: 6px;
+    border-radius: 5px;
+    border: 2px solid #FFFF;
+    background-color:#dbdde0 ;
+    color: #4b4a4a;
+    box-shadow: 1px 1px 2px #79B8FF;
+}
+.container-header-grid{
+    background-color:#79B8FF;
+    border: 1px solid #B5BAC2;
+   
+}
+.header-grid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 65px;
+}
+.header-grid ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    
+}
+ul, li{
+    list-style: none;
+}
+.container-grid{
+    display: flex;
+    flex-direction: column;
+}
+.grid{
+    display: flex;
+    flex-direction: row;
+}
+.lista-nombre-equipo, .lista-paises, .lista-botones{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+   justify-content: center;
+   align-items: center;
+   height: 65px;
+   background-color: #d8d8d8;
+   border: 1px solid black;
+}
+.lista-nombre-equipo li{
+    margin:10px;
+}
+
+.lista-botones li{
+    margin:10px;
+}
+
+
+
+
