@@ -76,6 +76,11 @@ ul, li{
 .lista-nombre-equipo li{
     margin:10px;
 }
+.logo-equipo{
+    
+    width:55px;
+    height:55px;
+}
 
 .lista-botones li{
     margin:10px;

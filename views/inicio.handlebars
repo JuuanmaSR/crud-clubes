@@ -1,6 +1,6 @@
 <div class="page">
     <div class="container-principal">
-        <h3>Hay 0 equipos!</h3>
+        <h3>Hay {{equipos.length}} equipos!</h3>
         <button id="agregar-equipos" class="button"><a href="/agregar">Agregar</a></button>
     </div>
     <div class="container-header-grid">
@@ -20,14 +20,14 @@
         {{#each equipos}}
         <div class="grid">
             <ul class="lista-nombre-equipo">
-                <li><img src="/imagenes/{{data.nombreArchivo}}" alt="logoEquipo"></li>
+                <li><img class="logo-equipo" src="{{crestUrl}}" alt="logoEquipo"></li>
             
-               <li>{{nombre}}</li>
+               <li>{{name}}</li>
            
             </ul>
             
             <ul class="lista-paises">
-                <li>PaisEquipo</li>
+                <li>{{area.name}}</li>
             </ul>
             <ul class="lista-botones">
                 <li><button class="button"><a href="">Ver</a></button></li>
