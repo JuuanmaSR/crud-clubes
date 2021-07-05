@@ -64,12 +64,28 @@ app.post('/agregar', (req, res) => {
   res.redirect('/');
 });
 
-//
-app.get('/equipo/:id/ver', (req, res) => {
+// Ver un equipo
+app.get('/ver/:id', (req, res) => {
   res.render('ver', {
     layout: 'index',
     style: 'ver.css',
   });
 });
+
+// Elimiar un equipo
+app.get('/eliminar/:id', (req, res) => {
+  const equipoId = req.params.id;
+  equipos = equipos.filter((equipo) => equipo.id !== equipoId);
+
+  const jsonNewEquipo = JSON.stringify(equipos, null, 2);
+  fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
+
+  res.redirect('/');
+});
+
 app.listen(8080);
-console.log(`Escuchando en el puerto ${PUERTO}`);console.log(`Escuchando en el puerto ${PUERTO}`);
+console.log(`Escuchando en el puerto ${PUERTO}`);
+app.use((req, res) => {
+  res.status(404);
+  res.send('404 Not found');
+});
