@@ -5,8 +5,10 @@
 const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
 
 const upload = multer({ dest: './uploads/images' });
+
 const exphbs = require('express-handlebars');
 const path = require('path');
 
@@ -16,10 +18,12 @@ const hbs = exphbs.create();
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.use(express.static(path.join(`${__dirname}/public`)));
-app.use(express.static(`${__dirname}/uploads`));
 
-const equipos = require('./data/equipos.json');
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
+
+let equipos = require('./data/equipos.json');
 
 // Routing
 app.get('/', (req, res) => {
@@ -40,9 +44,24 @@ app.get('/agregar', (req, res) => {
 });
 
 app.post('/agregar', (req, res) => {
-  res.render('agregar', {
-    layout: 'index',
-  });
+  console.log(req.body);
+  const { nombre, logo, pais } = req.body;
+  if (!nombre || !logo || !pais) {
+    res.status(400).send('Faltan campos por completar');
+    return;
+  }
+  const newEquipo = {
+    id: uuidv4(),
+    area: { name: pais },
+    name: nombre,
+    crestUrl: logo,
+    lastUpdate: Date(),
+
+  };
+  equipos.push(newEquipo);
+  const jsonNewEquipo = JSON.stringify(equipos, null, 2);
+  fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
+  res.redirect('/');
 });
 
 //
@@ -53,4 +72,4 @@ app.get('/equipo/:id/ver', (req, res) => {
   });
 });
 app.listen(8080);
-console.log(`Escuchando en el puerto ${PUERTO}`);
+console.log(`Escuchando en el puerto ${PUERTO}`);console.log(`Escuchando en el puerto ${PUERTO}`);
