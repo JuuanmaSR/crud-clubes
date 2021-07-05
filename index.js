@@ -55,7 +55,7 @@ app.post('/agregar', (req, res) => {
     area: { name: pais },
     name: nombre,
     crestUrl: logo,
-    lastUpdate: Date.parse(),
+    lastUpdate: new Date(),
 
   };
   equipos.push(newEquipo);
