@@ -1,21 +1,21 @@
 <div class="page">
     <div class="container-principal">
         <h3>Hay {{equipos.length}} equipos!</h3>
-        <button id="agregar-equipos" class="button"><a href="/agregar">Agregar</a></button>
+        <button id="agregar-equipos" class="button"><a href="/agregar">Agregar equipo</a></button>
     </div>
-    <div class="container-header-grid">
-        <div class="header-grid">
-                <ul>
-                    <li><b>Nombre Equipo</b></li>
-                </ul>
-                <ul>
-                    <li><b>País</b></li>
-                </ul>
-                <ul>
-                    <li><b>Acción</b></li>
-                </ul>
-        </div>
+    
+    <div class="header-grid">
+        <ul>
+             <li><b>Nombre Equipo</b></li>
+        </ul>
+        <ul>
+            <li><b>País</b></li>
+        </ul>
+        <ul>
+            <li><b>Acción</b></li>
+         </ul>
     </div>
+    
     <div class="container-grid">
         {{#each equipos}}
         <div class="grid">
@@ -32,7 +32,7 @@
             <ul class="lista-botones">
                 <li><button class="button"><a href="">Ver</a></button></li>
                 <li><button class="button"><a href="">Editar</a></button></li>
-                <li><button class="button"><a href="">Eliminar</a></button></li>
+                <li><button class="button"><a href="/eliminar/{{id}}">Eliminar</a></button></li>
             </ul>
         </div>
         {{/each}}
