@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 /* eslint-disable eqeqeq */
@@ -9,6 +10,7 @@ const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -18,10 +20,18 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-const upload = multer({ storage, limits: { fileSize: 1000000 } });
+const upload = multer({
+  storage,
+  limits: { fileSize: 1000000 },
+  fileFilter(req, file, cb) {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+      return cb(null, true);
+    }
+    cb('Error: Solo se soportan imagenes!');
+  },
+});
 
 const exphbs = require('express-handlebars');
-const path = require('path');
 
 const PUERTO = 8080;
 const app = express();
