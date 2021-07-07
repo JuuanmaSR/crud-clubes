@@ -1,14 +1,15 @@
 <div class="container-agregar">
     <h1>Agrega un nuevo equipo</h1>
 
-    <form class="container-form" action="/agregar" method="POST" enctype="application/x-www-form-urlencoded" >
+    <form class="container-form" action="/agregar" method="POST" enctype="multipart/form-data" >
+       
         <div class="container-input-label">
-            <label for="nombre">Nombre de Equipo</label>
-            <input type="text" name="nombre" id="nombre" placeholder="miequipo" required> 
+            <label for="imagen">Imagen</label>
+            <input type="file" name="imagen" id="imagen" required>
         </div>
-        <div class="container-input-label">
-            <label for="logo">Logo de Equipo</label>
-            <input type="text" name="logo" id="logo" placeholder="www.ejemplourl.com" required>
+         <div class="container-input-label">
+            <label for="nombre">Nombre de Equipo</label>
+            <input type="text" name="nombre" id="nombre" placeholder="miEquipo" required> 
         </div>
         <div class="container-input-label">   
            <label for="pais">Pais Equipo</label>
