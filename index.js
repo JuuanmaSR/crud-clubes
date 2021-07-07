@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
+/* eslint-disable eqeqeq */
 /* eslint-disable global-require */
 /* eslint-disable no-console */
 /* eslint-disable eol-last */
@@ -8,6 +11,15 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 const upload = multer({ dest: './uploads/images' });
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/images');
+  },
+  filename(req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage, limits: { fileSize: 1000000 } });
 
 const exphbs = require('express-handlebars');
 const path = require('path');
