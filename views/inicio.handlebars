@@ -32,10 +32,22 @@
             <ul class="lista-botones">
                 <li><button class="button"><a href="">Ver</a></button></li>
                 <li><button class="button"><a href="">Editar</a></button></li>
-                <li><button class="button"><a href="/eliminar/{{id}}">Eliminar</a></button></li>
+                <li><button class="button"><a href="/eliminar/{{id}}" onclick="return confirmDelete()">Eliminar</a></button></li>
             </ul>
         </div>
         {{/each}}
       
     </div>
 </div>
+<script type="text/javascript">
+    function confirmDelete(){
+        let respuesta = confirm('Desea elimiar este equipo?');
+        if(respuesta){
+            return  true;
+            
+        }else{
+            return false;
+        }
+        
+    };
+</script>
