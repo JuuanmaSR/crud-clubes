@@ -3,10 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
+html {
+    scroll-behavior: smooth;
+}
 .page{
+    padding-top: 50px;
     height: 1000px;
     font-family: Arial, Helvetica, sans-serif;
     background-color:#EEEEEE ;
+    scroll-behavior: smooth;
 }
 a{
     text-decoration: none;
@@ -15,7 +20,7 @@ a{
 .container-principal{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding-top: 10px;
     margin-bottom: 16px;
