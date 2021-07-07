@@ -87,11 +87,10 @@ app.get('/ver/:id', (req, res) => {
 // Elimiar un equipo
 app.get('/eliminar/:id', (req, res) => {
   const equipoId = req.params.id;
-  equipos = equipos.filter((equipo) => equipo.id !== equipoId);
 
+  equipos = equipos.filter((equipo) => equipo.id != equipoId);
   const jsonNewEquipo = JSON.stringify(equipos, null, 2);
   fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
-
   res.redirect('/');
 });
 
