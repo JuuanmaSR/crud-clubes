@@ -378,5 +378,14 @@
     "clubColors": "Red / Black",
     "venue": "Vitality Stadium",
     "lastUpdated": "2020-05-14T02:43:14Z"
+  },
+  {
+    "id": "88af954e-82d0-4d1e-8648-5ce7ca7a71b9",
+    "area": {
+      "name": "Argentina"
+    },
+    "name": "River",
+    "crestUrl": "/images/CA_river_plate_logo.svg.png",
+    "lastUpdate": "Fri Jul 09 2021 11:57:18 GMT-0300 (hora estándar de Argentina)"
   }
 ]

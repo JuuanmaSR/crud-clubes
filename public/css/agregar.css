@@ -18,23 +18,7 @@
     margin: 20px; 
 }
 
-.container-input-label{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 10px;
-}
-.container-input-label label{
-   
-    margin-bottom: 0.5em;
-}
-.container-input-label input{
-    padding: 1em;
-    border-radius: 10px;
-}
-.button{
-    padding: 5px 25px;
-    border-radius: 5px;
-    background-color:#0B5ED7 ;
-    color: #FFFFFF;
+#button-agregar{
+    padding: 6px 40px;
+    
 }

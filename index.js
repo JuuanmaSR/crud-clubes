@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
@@ -6,12 +7,14 @@
 /* eslint-disable no-console */
 /* eslint-disable eol-last */
 /* eslint-disable no-unused-vars */
+
 const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
+// Storage Settings
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, './uploads/images');
@@ -46,18 +49,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // Static files
 app.use(express.static(path.join(`${__dirname}/views`)));
-app.use(express.static(path.join(`${__dirname}/public`)));
 app.use(express.static(path.join(`${__dirname}/uploads`)));
+app.use(express.static(path.resolve(`${__dirname}/public`)));
 
 let equipos = require('./data/equipos.json');
-
 // Routes
 app.get('/', (req, res) => {
   res.render('inicio', {
     layout: 'index',
     style: 'inicio.css',
     equipos,
-
   });
 });
 
@@ -93,7 +94,7 @@ app.post('/agregar', upload.single('imagen'), (req, res) => {
 app.get('/ver/:id', (req, res) => {
   res.render('ver', {
     layout: 'index',
-    style: 'ver.css',
+    style: 'verEquipo.css',
   });
 });
 

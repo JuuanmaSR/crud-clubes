@@ -1,21 +1,23 @@
+{{>navbar}}
 <div class="container-agregar">
     <h1>Agrega un nuevo equipo</h1>
 
     <form class="container-form" action="/agregar" method="POST" enctype="multipart/form-data" >
        
-        <div class="container-input-label">
-            <label for="imagen">Imagen</label>
-            <input type="file" name="imagen" id="imagen" required>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Imagen</label>
+            <input type="file" name="imagen" class="form-control" id="inputGroupFile01" required>
         </div>
-         <div class="container-input-label">
-            <label for="nombre">Nombre de Equipo</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Mi Equipo" required> 
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Nombre equipo</label>
+            <input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="River" required>
         </div>
-        <div class="container-input-label">   
-           <label for="pais">Pais Equipo</label>
-            <input type="text" name="pais" id="pais" placeholder="Argentina" required>
+        <div class="mb-3">
+             <label for="formGroupExampleInput2" class="form-label">Pais equipo</label>
+            <input type="text" class="form-control" name="pais" id="formGroupExampleInput2" placeholder="Argentina" required>
         </div>
-            <input type="submit" name="" id="" class="btn btn-primary">
+        <input type="submit"  class="btn btn-primary" id="button-agregar">
     </form>
 
 </div>
