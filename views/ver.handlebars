@@ -1,4 +1,23 @@
 {{>navbar}}
+{{#each equipo}}
 <div class="page">
-    <img src="" alt="logoEquipo">
+    <img src="{{crestUrl}}" alt="logoEquipo" class="rounded img-fluid" id="logo-equipo">
+    <h2>{{name}}</h2>
+    <div class="container-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Ubicación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{area.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+{{/each}}

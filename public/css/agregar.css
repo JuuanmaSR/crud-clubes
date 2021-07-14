@@ -2,7 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: #473737;
+    color: #2a2121;
+}
+body{
+    background-color: #EEEEEE;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .container-agregar{
     display: flex;

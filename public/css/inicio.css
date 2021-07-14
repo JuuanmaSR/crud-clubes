@@ -2,15 +2,23 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: #2a2121;
+
 }
 html {
     scroll-behavior: smooth;
 }
+body{
+    background-color: #EEEEEE;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 .page{
     padding-top: 50px;
-    height: 1000px;
+    height: 100%;
     font-family: Arial, Helvetica, sans-serif;
-    background-color:#EEEEEE ;
     scroll-behavior: smooth;
 }
 

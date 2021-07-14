@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
@@ -53,6 +54,8 @@ app.use(express.static(path.join(`${__dirname}/uploads`)));
 app.use(express.static(path.resolve(`${__dirname}/public`)));
 
 let equipos = require('./data/equipos.json');
+
+let equipo = require('./data/equipo.json');
 // Routes
 app.get('/', (req, res) => {
   res.render('inicio', {
@@ -92,9 +95,15 @@ app.post('/agregar', upload.single('imagen'), (req, res) => {
 
 // Ver un equipo
 app.get('/ver/:id', (req, res) => {
+  const equipoId = req.params.id;
+  equipo = equipos.filter((equipoParam) => equipoParam.id == equipoId);
+  const equipoJSON = JSON.stringify(equipo, null, 2);
+  fs.writeFileSync('./data/equipo.json', equipoJSON, 'utf-8');
+
   res.render('ver', {
     layout: 'index',
     style: 'verEquipo.css',
+    equipo,
   });
 });
 
@@ -102,7 +111,7 @@ app.get('/ver/:id', (req, res) => {
 app.get('/eliminar/:id', (req, res) => {
   const equipoId = req.params.id;
 
-  equipos = equipos.filter((equipo) => equipo.id != equipoId);
+  equipos = equipos.filter((equipoParam) => equipoParam.id != equipoId);
   const jsonNewEquipo = JSON.stringify(equipos, null, 2);
   fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
   res.redirect('/');
