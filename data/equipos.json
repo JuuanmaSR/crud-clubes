@@ -380,12 +380,23 @@
     "lastUpdated": "2020-05-14T02:43:14Z"
   },
   {
-    "id": "88af954e-82d0-4d1e-8648-5ce7ca7a71b9",
+    "id": "321356fd-9e83-4182-86bc-62b9f2abe140",
     "area": {
       "name": "Argentina"
     },
     "name": "River",
     "crestUrl": "/images/CA_river_plate_logo.svg.png",
-    "lastUpdate": "Fri Jul 09 2021 11:57:18 GMT-0300 (hora estándar de Argentina)"
+    "address": "Av. Pres. Figueroa Alcorta 7597, C1428 CABA",
+    "lastUpdated": "Wed Jul 14 2021 02:27:12 GMT-0300 (hora estándar de Argentina)"
+  },
+  {
+    "id": "44aab924-46d6-439e-bcfd-76dad819b60c",
+    "area": {
+      "name": "Argentina"
+    },
+    "name": "Boca",
+    "crestUrl": "/images/135px-Boca_Juniors_logo18.svg.png",
+    "address": "805 Brandsen, C1161 CABA",
+    "lastUpdated": "Wed Jul 14 2021 14:07:04 GMT-0300 (hora estándar de Argentina)"
   }
 ]

@@ -12,6 +12,7 @@
 const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
+const methodOverride = require('method-override');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
@@ -46,6 +47,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // Middlewares
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // Static files
@@ -55,7 +57,6 @@ app.use(express.static(path.resolve(`${__dirname}/public`)));
 
 let equipos = require('./data/equipos.json');
 
-let equipo = require('./data/equipo.json');
 // Routes
 app.get('/', (req, res) => {
   res.render('inicio', {
@@ -74,8 +75,8 @@ app.get('/agregar', (req, res) => {
 });
 
 app.post('/agregar', upload.single('imagen'), (req, res) => {
-  const { nombre, pais } = req.body;
-  if (!nombre || !pais) {
+  const { nombre, pais, ubicacion } = req.body;
+  if (!nombre || !pais || !ubicacion) {
     res.status(400).send('Faltan campos por completar');
     return;
   }
@@ -84,7 +85,8 @@ app.post('/agregar', upload.single('imagen'), (req, res) => {
     area: { name: pais },
     name: nombre,
     crestUrl: `/images/${req.file.filename}`,
-    lastUpdate: Date(),
+    address: ubicacion,
+    lastUpdated: Date(),
 
   };
   equipos.push(newEquipo);
@@ -96,9 +98,7 @@ app.post('/agregar', upload.single('imagen'), (req, res) => {
 // Ver un equipo
 app.get('/ver/:id', (req, res) => {
   const equipoId = req.params.id;
-  equipo = equipos.filter((equipoParam) => equipoParam.id == equipoId);
-  const equipoJSON = JSON.stringify(equipo, null, 2);
-  fs.writeFileSync('./data/equipo.json', equipoJSON, 'utf-8');
+  const equipo = equipos.filter((equipoParam) => equipoParam.id == equipoId);
 
   res.render('ver', {
     layout: 'index',
@@ -117,7 +117,45 @@ app.get('/eliminar/:id', (req, res) => {
   res.redirect('/');
 });
 
-app.listen(8080);
+// Editar un equipo
+app.get('/editar/:id', (req, res) => {
+  const equipoId = req.params.id;
+  res.render('editar', {
+    layout: 'index',
+    style: 'editar.css',
+    id: equipoId,
+  });
+});
+
+app.put('/editar/:id', upload.single('imagen'), (req, res) => {
+  const equipoId = req.params.id;
+
+  const { nombre, pais, ubicacion } = req.body;
+  if (!nombre || !pais || !ubicacion) {
+    res.status(400).send('Faltan campos por completar');
+    return;
+  }
+  const newEquipo = {
+    area: { name: pais },
+    name: nombre,
+    crestUrl: `/images/${req.file.filename}`,
+    address: ubicacion,
+    lastUpdated: Date(),
+
+  };
+  const equiposUpdate = equipos.map((dato) => {
+    if (dato.id == equipoId) {
+      const result = Object.assign(dato, newEquipo);
+      return result;
+    }
+    return dato;
+  });
+  const jsonNewEquipo = JSON.stringify(equiposUpdate, null, 2);
+  fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
+  res.redirect('/');
+});
+
+app.listen(PUERTO);
 console.log(`Escuchando en el puerto ${PUERTO}`);
 app.use((req, res) => {
   res.status(404);
