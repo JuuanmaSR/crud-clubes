@@ -56,13 +56,14 @@ app.use(express.static(path.join(`${__dirname}/uploads`)));
 app.use(express.static(path.resolve(`${__dirname}/public`)));
 
 let equipos = require('./data/equipos.json');
-
+const Equipo = require('./entidades/equipo');
 // Routes
 app.get('/', (req, res) => {
   res.render('inicio', {
     layout: 'index',
     style: 'inicio.css',
     equipos,
+
   });
 });
 
@@ -80,15 +81,16 @@ app.post('/agregar', upload.single('imagen'), (req, res) => {
     res.status(400).send('Faltan campos por completar');
     return;
   }
-  const newEquipo = {
-    id: uuidv4(),
-    area: { name: pais },
-    name: nombre,
-    crestUrl: `/images/${req.file.filename}`,
-    address: ubicacion,
-    lastUpdated: Date(),
 
-  };
+  const newEquipo = new Equipo(
+    uuidv4(),
+    pais,
+    nombre,
+    `/images/${req.file.filename}`,
+    ubicacion,
+    Date(),
+
+  );
   equipos.push(newEquipo);
   const jsonNewEquipo = JSON.stringify(equipos, null, 2);
   fs.writeFileSync('./data/equipos.json', jsonNewEquipo, 'utf-8');
@@ -135,14 +137,15 @@ app.put('/editar/:id', upload.single('imagen'), (req, res) => {
     res.status(400).send('Faltan campos por completar');
     return;
   }
-  const newEquipo = {
-    area: { name: pais },
-    name: nombre,
-    crestUrl: `/images/${req.file.filename}`,
-    address: ubicacion,
-    lastUpdated: Date(),
 
-  };
+  const newEquipo = new Equipo(
+    equipoId,
+    pais,
+    nombre,
+    `/images/${req.file.filename}`,
+    ubicacion,
+    Date(),
+  );
   const equiposUpdate = equipos.map((dato) => {
     if (dato.id == equipoId) {
       const result = Object.assign(dato, newEquipo);
