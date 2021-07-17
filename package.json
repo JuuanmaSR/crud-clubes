@@ -4,7 +4,7 @@
   "description": "Crear una aplicación donde se puedan crear, consultar, actualizar y eliminar equipos en Inglaterra usando express + handlebars",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./index.js"
+    "dev": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",

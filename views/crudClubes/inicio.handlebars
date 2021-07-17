@@ -2,7 +2,7 @@
 <div class="page">
     <div class="container-principal">
         <h3>Hay {{equipos.length}} equipos!</h3>
-        <button id="agregar-equipos" class="button"><a href="/agregar">Agregar equipo</a></button>
+        <button id="agregar-equipos" class="button"><a href="/crudClubes/agregar">Agregar equipo</a></button>
     </div>
     
     <div class="header-grid">
@@ -31,11 +31,11 @@
                 <li>{{area.name}}</li>
             </ul>
             <ul class="lista-botones">
-                <li><button class="button"><a href="/ver/{{id}}">Ver</a></button></li>
+                <li><button class="button"><a href="/crudClubes/ver/{{id}}">Ver</a></button></li>
                 
-                <li><button class="button"><a href="/editar/{{id}}"  onclick="return confirmAction(`editar`)">Editar</a></button></li>
+                <li><button class="button"><a href="/crudClubes/editar/{{id}}"  onclick="return confirmAction(`editar`)">Editar</a></button></li>
                 
-                <li><button class="button"><a href="/eliminar/{{id}}" onclick="return confirmAction(`eliminar`)">Eliminar</a></button></li>
+                <li><button class="button"><a href="/crudClubes/eliminar/{{id}}" onclick="return confirmAction(`eliminar`)">Eliminar</a></button></li>
             </ul>
         </div>
         {{/each}}

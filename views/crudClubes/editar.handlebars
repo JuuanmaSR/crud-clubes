@@ -1,8 +1,8 @@
 {{>navbar}}
 <div class="container-agregar">
-    <h1>Agrega un nuevo equipo</h1>
+    <h1>Editar un equipo</h1>
 
-    <form class="container-form" action="/agregar" method="POST" enctype="multipart/form-data" >
+    <form class="container-form" action="/crudClubes/editar/{{id}}?_method=PUT" method="POST" enctype="multipart/form-data" >
        
         
         <div class="input-group mb-3">
@@ -17,11 +17,9 @@
              <label for="formGroupExampleInput2" class="form-label">Pais equipo</label>
             <input type="text" class="form-control" name="pais" id="formGroupExampleInput2" placeholder="Argentina" required>
         </div>
-        <div class="mb-3">
+         <div class="mb-3">
              <label for="formGroupExampleInput2" class="form-label">Ubicación equipo</label>
             <input type="text" class="form-control" name="ubicacion" id="formGroupExampleInput2" placeholder="Av.San Martin" required>
         </div>
         <input type="submit"  class="btn btn-primary" id="button-agregar">
     </form>
-
-</div>
