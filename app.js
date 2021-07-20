@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const express = require('express');
 const methodOverride = require('method-override');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const crudRoutes = require('./routes/crud-routes');
 
-const PUERTO = 8080;
+const PUERTO = process.env.PORT;
+
 const app = express();
 const hbs = exphbs.create();
 
