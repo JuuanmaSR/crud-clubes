@@ -1,8 +1,12 @@
 /* eslint-disable eqeqeq */
 const multer = require('multer');
 const express = require('express');
-const clubController = require('../modulos/club/controllers/clubController');
+const serviceLocator = require('../modulos/club/serviceLocator')();
+serviceLocator.register('clubRepository', require('../modulos/club/repository/clubRepository'));
+serviceLocator.factory('clubService', require('../modulos/club/service/clubService'));
+serviceLocator.factory('clubController', require('../modulos/club/controllers/clubController'));
 
+const clubController = serviceLocator.get('clubController');
 const router = express.Router();
 // Storage Settings
 const storage = multer.diskStorage({
