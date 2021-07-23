@@ -388,5 +388,15 @@
     "crestUrl": "/images/135px-Boca_Juniors_logo18.svg.png",
     "address": "805 Brandsen, C1161 CABA",
     "lastUpdated": "Wed Jul 14 2021 14:07:04 GMT-0300 (hora estándar de Argentina)"
+  },
+  {
+    "id": "709f64a2-ce14-430f-b5ca-456ef7716f87",
+    "area": {
+      "name": "Argentina"
+    },
+    "name": "River",
+    "crestUrl": "/images/CA_river_plate_logo.svg.png",
+    "address": "Av. Pres. Figueroa Alcorta 7597, C1428 CABA",
+    "lastUpdated": "Fri Jul 23 2021 13:55:32 GMT-0300 (hora estándar de Argentina)"
   }
 ]
