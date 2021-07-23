@@ -1,13 +1,13 @@
 /* eslint-disable eqeqeq */
 const multer = require('multer');
 const express = require('express');
-const serviceLocator = require('../modulos/club/serviceLocator')();
-serviceLocator.register('clubRepository', require('../modulos/club/repository/clubRepository'));
-serviceLocator.factory('clubService', require('../modulos/club/service/clubService'));
-serviceLocator.factory('clubController', require('../modulos/club/controllers/clubController'));
-
-const clubController = serviceLocator.get('clubController');
+const container = require('../modulos/club/configDI/container-di')();
+/**
+ * @type {import('../modulos/club/controllers/clubController')} clubController
+ */
+const clubController = container.get('ClubController');
 const router = express.Router();
+
 // Storage Settings
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -27,18 +27,17 @@ const upload = multer({
     return cb('Error: Solo se soportan imagenes!');
   },
 });
-
 // Home
-router.get('/', clubController.clubIndex);
+router.get('/', clubController.clubIndex.bind(clubController));
 // Agregar
-router.get('/agregar', clubController.clubCreateGet);
-router.post('/agregar', upload.single('crestUrl'), clubController.clubCreatePost);
+router.get('/agregar', clubController.clubCreateGet.bind(clubController));
+router.post('/agregar', upload.single('crestUrl'), clubController.clubCreatePost.bind(clubController));
 // Ver un equipo
-router.get('/ver/:id', clubController.clubDetails);
+router.get('/ver/:id', clubController.clubDetails.bind(clubController));
 // Elimiar un equipo
-router.get('/eliminar/:id', clubController.clubDelete);
+router.get('/eliminar/:id', clubController.clubDelete.bind(clubController));
 // Editar un equipo
-router.get('/editar/:id', clubController.clubUpdateGet);
-router.put('/editar/:id', upload.single('crestUrl'), clubController.clubUpdatePut);
+router.get('/editar/:id', clubController.clubUpdateGet.bind(clubController));
+router.put('/editar/:id', upload.single('crestUrl'), clubController.clubUpdatePut.bind(clubController));
 
 module.exports = router;

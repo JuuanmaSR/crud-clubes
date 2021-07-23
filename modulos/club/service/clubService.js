@@ -1,28 +1,33 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable eqeqeq */
-module.exports = function (serviceLocator) {
-  const clubRepository = serviceLocator.get('clubRepository');
-  return {
-    saveEquipo: (equipo) => {
-      try {
-        clubRepository.save(equipo);
-      } catch (error) {
-        console.log(`no se pudo guardar el equipo: ${equipo}`);
-      }
-    },
-    updateEquipo: (equipo) => {
-      try {
-        clubRepository.update(equipo);
-      } catch (error) {
-        console.log(`no se pudo actualizar el equipo${equipo}`);
-      }
-    },
-    deleteEquipo: (equipoid) => {
-      clubRepository.deletes(equipoid);
-    },
-    getAll: () => clubRepository.getAll(),
-    getById: (equipoid) => clubRepository.getById(equipoid),
 
-  };
+module.exports = class ClubService {
+  /**
+   *
+   * @param {import('../repository/clubRepository')} ClubRepository
+   */
+  constructor(ClubRepository) {
+    this.clubRepository = ClubRepository;
+  }
+
+  async saveEquipo(equipo) {
+    return this.clubRepository.save(equipo);
+  }
+
+  async updateEquipo(equipo) {
+    return this.clubRepository.update(equipo);
+  }
+
+  async deleteEquipo(equipoid) {
+    return this.clubRepository.delete(equipoid);
+  }
+
+  async getAll() {
+    return this.clubRepository.getAll();
+  }
+
+  async getById(equipoid) {
+    return this.clubRepository.getById(equipoid);
+  }
 };

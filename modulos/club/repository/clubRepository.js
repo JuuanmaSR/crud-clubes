@@ -1,40 +1,59 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable eqeqeq */
-const fs = require('fs');
+module.exports = class ClubRepository {
+  constructor(fileSystem, dbPath) {
+    this.fileSystem = fileSystem;
+    this.dbPath = dbPath;
+  }
 
-const DB_PATH = process.env.JSON_DB_PATH;
-let equipos = require(`../../../${DB_PATH}`);
+  async save(equipo) {
+    const equipos = await this.getData();
+    equipos.push(equipo);
+    const jsonNewEquipo = JSON.stringify(equipos, null, 2);
+    this.saveData(jsonNewEquipo);
+  }
 
-const save = (equipo) => {
-  equipos.push(equipo);
-  const jsonNewEquipo = JSON.stringify(equipos, null, 2);
-  fs.writeFileSync(DB_PATH, jsonNewEquipo, 'utf-8');
-};
+  async update(equipo) {
+    const equipos = await this.getData();
+    const equiposUpdate = equipos.map((dato) => {
+      if (dato.id === equipo.id) {
+        const result = Object.assign(dato, equipo);
+        return result;
+      }
+      return dato;
+    });
+    const jsonNewEquipo = JSON.stringify(equiposUpdate, null, 2);
+    this.saveData(jsonNewEquipo);
+  }
 
-const update = (equipo) => {
-  const equiposUpdate = equipos.map((dato) => {
-    if (dato.id === equipo.id) {
-      const result = Object.assign(dato, equipo);
-      return result;
+  async delete(equipoid) {
+    let equipos = await this.getData();
+    equipos = equipos.filter((equipoParam) => equipoParam.id != equipoid);
+    const jsonNewEquipo = JSON.stringify(equipos, null, 2);
+    this.saveData(jsonNewEquipo);
+  }
+
+  async getAll() {
+    return this.getData();
+  }
+
+  async getById(equipoid) {
+    const equipos = await this.getData();
+    return equipos.filter((equipoParam) => equipoParam.id == equipoid);
+  }
+
+  getData() {
+    const content = this.fileSystem.readFileSync(this.dbPath, { encoding: 'utf-8' });
+    let parsedContent;
+    try {
+      parsedContent = JSON.parse(content);
+    } catch (e) {
+      parsedContent = [];
     }
-    return dato;
-  });
-  const jsonNewEquipo = JSON.stringify(equiposUpdate, null, 2);
-  fs.writeFileSync(DB_PATH, jsonNewEquipo, 'utf-8');
-};
-const deletes = (equipoid) => {
-  equipos = equipos.filter((equipoParam) => equipoParam.id != equipoid);
-  const jsonNewEquipo = JSON.stringify(equipos, null, 2);
-  fs.writeFileSync(DB_PATH, jsonNewEquipo, 'utf-8');
-};
-const getAll = () => equipos;
+    return parsedContent;
+  }
 
-const getById = (equipoid) => equipos.filter((equipoParam) => equipoParam.id == equipoid);
-
-module.exports = {
-  save,
-  update,
-  deletes,
-  getAll,
-  getById,
+  saveData(content) {
+    this.fileSystem.writeFileSync(this.dbPath, content, 'utf-8');
+  }
 };
