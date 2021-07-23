@@ -5,15 +5,28 @@ const {
 
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const session = require('express-session');
 
 const jsonDataBasePath = process.env.JSON_DB_PATH;
 
 const { ClubController, ClubService, ClubRepository } = require('../module');
 
+function configureSession() {
+  const oneWeekInSeconds = 604800000;
+
+  const sessionOptions = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: oneWeekInSeconds },
+  };
+  return session(sessionOptions);
+}
 function addCommonDefinitions(container) {
   container.addDefinitions({
     fs,
     uuidv4,
+    Sessions: factory(configureSession),
     JSONDatabase: jsonDataBasePath,
 
   });

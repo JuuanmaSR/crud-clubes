@@ -16,11 +16,14 @@ module.exports = class ClubController {
 
   async clubIndex(req, res) {
     const equipos = await this.clubService.getAll();
+    const { messages } = req.session;
     res.render('crudClubes/inicio', {
       layout: 'index',
       style: 'inicio.css',
       equipos,
+      messages,
     });
+    req.session.messages = [];
   }
 
   async clubDetails(req, res) {
@@ -108,6 +111,7 @@ module.exports = class ClubController {
     const equipoId = req.params.id;
     try {
       await this.clubService.deleteEquipo(equipoId);
+      req.session.messages = [`El club con id ${equipoId} se elimino correctamente`];
       res.redirect('/crudClubes');
     } catch (error) {
       res.status(400).send("Delete function is don't work");

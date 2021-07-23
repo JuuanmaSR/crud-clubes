@@ -7,7 +7,7 @@ const container = require('../modulos/club/configDI/container-di')();
  */
 const clubController = container.get('ClubController');
 const router = express.Router();
-
+router.use(container.get('Sessions'));
 // Storage Settings
 const storage = multer.diskStorage({
   destination(req, file, cb) {

@@ -2,7 +2,11 @@
 
 <div class="page">
     <h1 class="h1-title">Crud de equipos</h1>
-    
+    {{#if messages}}
+    <div class="alert alert-success" role="alert">
+        {{messages}}
+    </div>
+    {{/if}}
     <div class="container-principal">
         <h3>Hay {{equipos.length}} equipos!</h3>
         <button id="agregar-equipos" class="button"><a href="/crudClubes/agregar">Agregar equipo</a></button>
