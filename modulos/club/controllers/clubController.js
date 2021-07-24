@@ -66,7 +66,7 @@ module.exports = class ClubController {
         Date(),
       );
       await this.clubService.saveEquipo(newEquipo);
-      req.session.messages = [`El equipo ${name} con id ${newEquipo.id} se creo correctamente`];
+      req.session.messages = [`El equipo ${name} con id ${newEquipo.id} se creo correctamente!`];
       res.redirect('/crudClubes');
     } catch (error) {
       res.status(400).send('Invalid JSON string to create a new club');
@@ -113,7 +113,7 @@ module.exports = class ClubController {
     const equipoId = req.params.id;
     try {
       await this.clubService.deleteEquipo(equipoId);
-      req.session.messages = [`El equipo con id ${equipoId} se elimino correctamente`];
+      req.session.messages = [`El equipo con id ${equipoId} se elimino correctamente!`];
       res.redirect('/crudClubes');
     } catch (error) {
       res.status(400).send("Delete function is don't work");
