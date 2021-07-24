@@ -1,7 +1,11 @@
 /* eslint-disable import/no-dynamic-require */
+
+const AbstractRepository = require('../../abstractRepository');
+
 /* eslint-disable eqeqeq */
-module.exports = class ClubRepository {
+module.exports = class ClubRepository extends AbstractRepository {
   constructor(fileSystem, dbPath) {
+    super();
     this.fileSystem = fileSystem;
     this.dbPath = dbPath;
   }

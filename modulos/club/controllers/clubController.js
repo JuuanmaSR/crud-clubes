@@ -3,13 +3,16 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 /* eslint-disable eqeqeq */
+const AbstractController = require('../../abstractController');
+const ClubIdNotDefinedError = require('./error/ClubIdNotDefinedError');
 const { fromDataToEntity } = require('../mapper/equipoMapper');
 
-module.exports = class ClubController {
+module.exports = class ClubController extends AbstractController {
   /**
    * @param {import('../service/clubService')} ClubService
    */
   constructor(ClubService, uuidv4) {
+    super();
     this.clubService = ClubService;
     this.uuidv4 = uuidv4;
   }
@@ -22,8 +25,10 @@ module.exports = class ClubController {
       style: 'inicio.css',
       equipos,
       messages,
+      errors,
     });
     req.session.messages = [];
+    req.session.errors = [];
   }
 
   async clubDetails(req, res) {
@@ -103,7 +108,6 @@ module.exports = class ClubController {
       );
       await this.clubService.updateEquipo(newEquipo);
       req.session.messages = [`El equipo ${name} con id ${equipoId} se actualizo correctamente!`];
-      res.redirect('/crudClubes');
     } catch (error) {
       res.status(400).send('Invalid JSON string to update a specific club');
     }
@@ -115,6 +119,8 @@ module.exports = class ClubController {
       await this.clubService.deleteEquipo(equipoId);
       req.session.messages = [`El equipo con id ${equipoId} se elimino correctamente!`];
       res.redirect('/crudClubes');
+      }
+      await this.clubService.deleteEquipo(id);
     } catch (error) {
       res.status(400).send("Delete function is don't work");
     }
