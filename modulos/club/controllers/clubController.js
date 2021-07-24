@@ -19,7 +19,7 @@ module.exports = class ClubController extends AbstractController {
 
   async clubIndex(req, res) {
     const equipos = await this.clubService.getAll();
-    const { messages } = req.session;
+    const { messages, errors } = req.session;
     res.render('crudClubes/inicio', {
       layout: 'index',
       style: 'inicio.css',
@@ -72,10 +72,10 @@ module.exports = class ClubController extends AbstractController {
       );
       await this.clubService.saveEquipo(newEquipo);
       req.session.messages = [`El equipo ${name} con id ${newEquipo.id} se creo correctamente!`];
-      res.redirect('/crudClubes');
     } catch (error) {
-      res.status(400).send('Invalid JSON string to create a new club');
+      req.session.errors = ['El equipo no se pudo crear correctamente'];
     }
+    res.redirect('/crudClubes');
   }
 
   clubUpdateGet(req, res) {
@@ -109,20 +109,22 @@ module.exports = class ClubController extends AbstractController {
       await this.clubService.updateEquipo(newEquipo);
       req.session.messages = [`El equipo ${name} con id ${equipoId} se actualizo correctamente!`];
     } catch (error) {
-      res.status(400).send('Invalid JSON string to update a specific club');
+      req.session.errors = ['No se pudo actualizar el equipo'];
     }
+    res.redirect('/crudClubes');
   }
 
   async clubDelete(req, res) {
-    const equipoId = req.params.id;
     try {
       await this.clubService.deleteEquipo(equipoId);
       req.session.messages = [`El equipo con id ${equipoId} se elimino correctamente!`];
       res.redirect('/crudClubes');
       }
       await this.clubService.deleteEquipo(id);
+      req.session.messages = [`El equipo con id ${id} se elimino correctamente!`];
     } catch (error) {
-      res.status(400).send("Delete function is don't work");
+      req.session.errors = ['No se pudo eliminar el equipo'];
     }
+    res.redirect('/crudClubes');
   }
 };
