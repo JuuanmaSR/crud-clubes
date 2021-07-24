@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 const session = require('express-session');
 const multer = require('multer');
 
-const { ClubController, ClubService, ClubRepository } = require('../module');
+const { ClubController, ClubService, ClubRepository } = require('../club/module');
 
 function configureJSONDatabase() {
   return process.env.JSON_DB_PATH;

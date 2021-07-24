@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 const express = require('express');
-const container = require('../modulos/club/configDI/container-di')();
+const container = require('../modulos/configDI/container-di')();
 /**
  * @type {import('../modulos/club/controllers/clubController')} clubController
  */
