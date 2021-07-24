@@ -4,12 +4,10 @@ const express = require('express');
 const methodOverride = require('method-override');
 const path = require('path');
 const exphbs = require('express-handlebars');
-/**
- * @type {import('./routes/crud-routes')} crud-routes
- */
+
 const crudRoutes = require('./routes/crud-routes');
 
-const PUERTO = process.env.PORT;
+const PUERTO = process.env.PORT || 3000;
 
 const app = express();
 const hbs = exphbs.create();
