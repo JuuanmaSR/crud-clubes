@@ -83,9 +83,6 @@ module.exports = class ClubController extends AbstractController {
 
   clubUpdateGet(req, res) {
     const equipoId = req.params.id;
-    if (equipoId === undefined) {
-      throw new ClubIdNotDefinedError();
-    }
     try {
       res.render('crudClubes/editar', {
         layout: 'index',
@@ -124,11 +121,11 @@ module.exports = class ClubController extends AbstractController {
   }
 
   async clubDelete(req, res) {
+    const { id } = req.params;
+    if (id === undefined) {
+      throw new ClubIdNotDefinedError();
+    }
     try {
-      const { id } = req.params;
-      if (id === undefined) {
-        throw new ClubIdNotDefinedError();
-      }
       await this.clubService.deleteEquipo(id);
       req.session.messages = [`El equipo con id ${id} se elimino correctamente!`];
     } catch (error) {
