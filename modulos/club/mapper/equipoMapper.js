@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const Equipo = require('../entidades/equipo');
-const Area = require('../entidades/area');
 
-function fromDataToEntity(
-  id, area_name, name, crestUrl, address, lastUpdated,
-) {
+function fromDataToEntity({
+  id, area_name: areaName, name, short_name: shortName, crest_url: crestUrl, address, lastUpdated,
+}) {
   return new Equipo(
     id,
-    new Area(area_name),
+    areaName,
     name,
+    shortName,
     crestUrl,
     address,
     lastUpdated,
