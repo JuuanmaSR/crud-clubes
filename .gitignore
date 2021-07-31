@@ -32,6 +32,9 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# Ignore the default SQLite database.
+/db/*.sqlite3
+
 # Dependency directories
 node_modules/
 jspm_packages/
