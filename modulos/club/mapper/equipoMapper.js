@@ -15,7 +15,24 @@ function fromDataToEntity(
     lastUpdated,
   );
 }
-
+function fromDbToEntity({
+  id,
+  area_name,
+  name,
+  short_name,
+  crest_url,
+  address,
+}) {
+  return new Equipo({
+    id,
+    area_name,
+    name,
+    short_name,
+    crest_url,
+    address,
+  });
+}
 module.exports = {
+  fromDbToEntity,
   fromDataToEntity,
 };
