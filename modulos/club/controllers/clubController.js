@@ -11,10 +11,9 @@ module.exports = class ClubController extends AbstractController {
   /**
    * @param {import('../service/clubService')} ClubService
    */
-  constructor(ClubService, uuidv4) {
+  constructor(ClubService) {
     super();
     this.clubService = ClubService;
-    this.uuidv4 = uuidv4;
   }
 
   async clubIndex(req, res) {
@@ -66,12 +65,10 @@ module.exports = class ClubController extends AbstractController {
         res.status(400).send('Faltan campos por completar');
       }
       const newEquipo = fromDataToEntity(
-        this.uuidv4(),
         area_name,
         name,
         `/images/${req.file.filename}`,
         address,
-        Date(),
       );
       await this.clubService.saveEquipo(newEquipo);
       req.session.messages = [`El equipo ${name} con id ${newEquipo.id} se creo correctamente!`];
