@@ -1,11 +1,13 @@
 class Equipo {
-  constructor(id, pais, nombre, logo, ubicacion, fechaModificacion) {
+  constructor({
+    id, areaName, name, shortName, crestUrl, address,
+  }) {
     this.id = id;
-    this.area = pais;
-    this.name = nombre;
-    this.crestUrl = logo;
-    this.address = ubicacion;
-    this.lastUpdated = fechaModificacion;
+    this.areaName = areaName;
+    this.name = name;
+    this.shortName = shortName;
+    this.crestUrl = crestUrl;
+    this.address = address;
   }
 }
 module.exports = Equipo;
