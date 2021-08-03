@@ -1,5 +1,5 @@
 {{>navbar}}
-{{#each equipo}}
+{{#with equipo}}
 <div class="page">
     <img src="{{crestUrl}}" alt="logoEquipo" class="rounded img-fluid" id="logo-equipo">
     <h2>{{name}}</h2>
@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Nombre Corto</th>
                     <th scope="col">Pais</th>
                     <th scope="col">Ubicación</th>
 
@@ -16,7 +17,8 @@
             <tbody>
                 <tr>
                     <td>{{name}}</td>
-                    <td>{{area.name}}</td>
+                    <td>{{shortName}}</td>
+                    <td>{{areaName}}</td>
                     <td>{{address}}</td>
                 </tr>
             </tbody>
@@ -24,4 +26,4 @@
     </div>
     
 </div>
-{{/each}}
+{{/with}}
