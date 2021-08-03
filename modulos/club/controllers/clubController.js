@@ -52,7 +52,7 @@ module.exports = class ClubController extends AbstractController {
     try {
       res.render('crudClubes/form', {
         layout: 'index',
-        style: 'agregar.css',
+        style: 'form.css',
         title: 'Crear un equipo',
       });
     } catch (error) {
@@ -87,7 +87,7 @@ module.exports = class ClubController extends AbstractController {
     try {
       res.render('crudClubes/form', {
         layout: 'index',
-        style: 'editar.css',
+        style: 'form.css',
         title: 'Actualizar un equipo',
         id,
       });

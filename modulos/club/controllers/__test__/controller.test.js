@@ -58,7 +58,7 @@ test('clubCreateGet renderea form', async () => {
   expect(renderMock).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenLastCalledWith('crudClubes/form', {
     layout: 'index',
-    style: 'agregar.css',
+    style: 'form.css',
     title: 'Crear un equipo',
   });
 });
@@ -91,7 +91,7 @@ test('clubUpdateGet renderea un form y utiliza un id para pasarlo como parametro
   expect(renderMock).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenCalledWith('crudClubes/form', {
     layout: 'index',
-    style: 'editar.css',
+    style: 'form.css',
     title: 'Actualizar un equipo',
     id,
   });
