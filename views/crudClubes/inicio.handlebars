@@ -29,8 +29,8 @@
         </div>
     {{/if}}
     <div class="container-principal">
-        <h3>Hay {{equipos.length}} equipos!</h3>
-        <button id="agregar-equipos" class="button"><a href="/crudClubes/agregar">Agregar equipo</a></button>
+        <h3>Hay {{equipos.length}} equipos</h3>
+        <button id="agregar-equipos" class="button"><a href="/crudClubes/crear">Crear equipo</a></button>
     </div>
     
     <div class="header-grid">
@@ -56,7 +56,7 @@
             </ul>
             
             <ul class="lista-paises">
-                <li>{{area.name}}</li>
+                <li>{{areaName}}</li>
             </ul>
             <ul class="lista-botones">
                 <li><button class="button"><a href="/crudClubes/ver/{{id}}">Ver</a></button></li>
