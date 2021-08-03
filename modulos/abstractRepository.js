@@ -2,6 +2,7 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable class-methods-use-this */
 const AbstractErrorRepository = require('./error/abstractErrorRepository');
+const MethodNotImplementedError = require('./club/repository/error/MethodNotImplementedError');
 
 module.exports = class AbstractRepository {
   constructor() {
@@ -10,13 +11,19 @@ module.exports = class AbstractRepository {
     }
   }
 
-  async save(equipo) {}
+  async save(equipo) {
+    throw new MethodNotImplementedError();
+  }
 
-  async update(equipo) {}
+  async delete(id) {
+    throw new MethodNotImplementedError();
+  }
 
-  async delete(equipoid) {}
+  async getAll() {
+    throw new MethodNotImplementedError();
+  }
 
-  async getAll() {}
-
-  async getById() {}
+  async getById() {
+    throw new MethodNotImplementedError();
+  }
 };
