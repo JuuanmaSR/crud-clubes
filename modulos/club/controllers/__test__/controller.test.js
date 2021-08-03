@@ -4,17 +4,13 @@ const ClubController = require('../clubController');
 const ClubIdNotDefinedError = require('../error/ClubIdNotDefinedError');
 const Equipo = require('../../entidades/equipo');
 
-const uuidv4 = {
-  single: jest.fn(),
-};
 const serviceMock = {
   getAll: jest.fn(() => Promise.resolve([])),
   getById: jest.fn(() => Promise.resolve({})),
   saveEquipo: jest.fn(() => Promise.resolve({})),
-  updateEquipo: jest.fn(() => Promise.resolve({})),
-  deleteEquipo: jest.fn(),
+  deleteEquipo: jest.fn(() => Promise.resolve(true)),
 };
-const controller = new ClubController(serviceMock, uuidv4);
+const controller = new ClubController(serviceMock);
 
 test('clubIndex renderea el inicio', async () => {
   const renderMock = jest.fn();
@@ -25,6 +21,7 @@ test('clubIndex renderea el inicio', async () => {
       style: '',
     },
   );
+  expect(serviceMock.getAll).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenCalledWith('crudClubes/inicio', {
     layout: 'index',
@@ -36,15 +33,17 @@ test('clubIndex renderea el inicio', async () => {
 });
 
 test('clubDetails sin ID da un error', async () => {
-  expect(controller.clubDetails({ params: {} })).rejects.toThrowError(ClubIdNotDefinedError);
+  expect(controller.clubDetails({ params: { } })).rejects.toThrowError(ClubIdNotDefinedError);
 });
 
 test('clubDetails obtiene ID del club y lo renderea', async () => {
+  serviceMock.getById.mockImplementationOnce(() => ({}));
+
   const idMock = 1;
   const renderMock = jest.fn();
-  serviceMock.getById.mockImplementationOnce(() => ({}));
   await controller.clubDetails({ params: { id: idMock } }, { render: renderMock });
   expect(serviceMock.getById).toHaveBeenCalledWith(idMock);
+  expect(serviceMock.getById).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenCalledWith('crudClubes/ver',
     {
       layout: 'index',
@@ -53,32 +52,31 @@ test('clubDetails obtiene ID del club y lo renderea', async () => {
     });
 });
 
-test('clubCreateGet renderea agregar', async () => {
+test('clubCreateGet renderea form', async () => {
   const renderMock = jest.fn();
   await controller.clubCreateGet({}, { render: renderMock });
   expect(renderMock).toHaveBeenCalledTimes(1);
-  expect(renderMock).toHaveBeenLastCalledWith('crudClubes/agregar', {
+  expect(renderMock).toHaveBeenLastCalledWith('crudClubes/form', {
     layout: 'index',
     style: 'agregar.css',
+    title: 'Crear un equipo',
   });
 });
 
-test('clubCreatePost  crea un club', async () => {
+test('clubSave  crea o guarda un club', async () => {
   serviceMock.saveEquipo.mockReset();
   const redirectMock = jest.fn();
+  controller.clubSave({ session: { errors: [], messages: [] } }, { redirect: redirectMock });
   const fakeCrestUrl = '/ejemplo/logo.png';
   const bodymock = new Equipo({
     id: undefined,
-    area: undefined,
+    areaName: undefined,
     name: undefined,
-    crestUrl: '/ejemplo/logo.png',
+    shortName: undefined,
+    crestUrl: fakeCrestUrl,
     address: undefined,
-    lastUpdate: undefined,
+
   });
-  controller.clubCreatePost(
-    { body: bodymock, file: { path: fakeCrestUrl }, session: { errors: [], messages: [] } },
-    { redirect: redirectMock },
-  );
   await serviceMock.saveEquipo(bodymock);
   expect(redirectMock).toHaveBeenCalledTimes(1);
   expect(redirectMock).toHaveBeenCalledWith('/crudClubes');
@@ -86,49 +84,17 @@ test('clubCreatePost  crea un club', async () => {
   expect(serviceMock.saveEquipo).toHaveBeenCalledWith(bodymock);
 });
 
-test('clubUpdateGet renderea editar y utiliza un id para pasarlo como parametro', async () => {
+test('clubUpdateGet renderea un form y utiliza un id para pasarlo como parametro', async () => {
   const renderMock = jest.fn();
   const id = 1;
   await controller.clubUpdateGet({ params: { id } }, { render: renderMock });
   expect(renderMock).toHaveBeenCalledTimes(1);
-  expect(renderMock).toHaveBeenCalledWith('crudClubes/editar', {
+  expect(renderMock).toHaveBeenCalledWith('crudClubes/form', {
     layout: 'index',
     style: 'editar.css',
+    title: 'Actualizar un equipo',
     id,
   });
-});
-
-test('clubUpdatePut intenta actualizar un equipo con id undefined', () => {
-  expect(controller.clubUpdatePut({ params: {} })).rejects.toThrowError(ClubIdNotDefinedError);
-});
-test('clubUpdatePut actualiza un equipo con id especifico y redirecciona a /crudClubes', async () => {
-  serviceMock.updateEquipo.mockReset();
-  const redirectMock = jest.fn();
-  const fakeCrestUrl = '/ejemplo/logo.png';
-  const bodymock = new Equipo({
-    id: undefined,
-    area: undefined,
-    name: undefined,
-    crestUrl: '/ejemplo/logo.png',
-    address: undefined,
-    lastUpdate: undefined,
-  });
-  controller.clubUpdatePut(
-    {
-      body: bodymock, params: { id: 1 }, file: { path: fakeCrestUrl }, session: { errors: [], messages: [] },
-    },
-    { redirect: redirectMock },
-  );
-  await serviceMock.updateEquipo(bodymock);
-  expect(redirectMock).toHaveBeenCalledTimes(1);
-  expect(redirectMock).toHaveBeenCalledWith('/crudClubes');
-  expect(serviceMock.updateEquipo).toHaveBeenCalledTimes(1);
-  expect(serviceMock.updateEquipo).toHaveBeenCalledWith(bodymock);
-});
-
-test('clubDelete intenta borrar un equipo con un id undefined', () => {
-  const redirectMock = jest.fn();
-  expect(controller.clubDelete({ params: {}, session: { errors: [], messages: [] } }, { redirect: redirectMock })).rejects.toThrowError(ClubIdNotDefinedError);
 });
 
 test('clubDelete elimina un equipo con un id especifico y redirecciona a /crudClubes', async () => {
@@ -137,8 +103,18 @@ test('clubDelete elimina un equipo con un id especifico y redirecciona a /crudCl
 
   await controller.clubDelete({ params: { id }, session: { messages: [], errors: [] } }, { redirect: redirectMock });
 
-  expect(serviceMock.deleteEquipo).toBeCalledTimes(1);
-  expect(serviceMock.deleteEquipo).toBeCalledWith(id);
-  expect(redirectMock).toBeCalledTimes(1);
-  expect(redirectMock).toBeCalledWith('/crudClubes');
+  expect(serviceMock.getById).toBeCalledWith(id);
+  expect(serviceMock.getById).toHaveBeenCalled();
+  expect(serviceMock.deleteEquipo).toHaveBeenCalledTimes(1);
+});
+
+test('clubDelete intenta borrar un equipo con un id undefined', async () => {
+  serviceMock.deleteEquipo.mockImplementationOnce(() => {
+    throw Error('error');
+  });
+  const redirectMock = jest.fn();
+  const req = { params: { id: undefined }, session: { errors: [] } };
+  await controller.clubDelete(req, { redirect: redirectMock });
+  expect(redirectMock).toHaveBeenCalledTimes(1);
+  expect(req.session.errors).not.toEqual([]);
 });
