@@ -43,7 +43,8 @@ module.exports = class ClubController extends AbstractController {
         equipo,
       });
     } catch (error) {
-      res.status(404).send('Page /ver not found');
+      req.session.errors = [error.message];
+      res.redirect('/crudClubes');
     }
   }
 
@@ -55,28 +56,30 @@ module.exports = class ClubController extends AbstractController {
         title: 'Crear un equipo',
       });
     } catch (error) {
-      res.status(400).send('Page /agregar not found');
+      req.session.errors = [error.message];
+      res.redirect('/crudClubes');
     }
   }
 
   async clubSave(req, res) {
     try {
-      const { name, area_name, address } = req.body;
-      if (!name || !area_name || !address) {
-        res.status(400).send('Faltan campos por completar');
+      const equipo = fromDataToEntity(req.body);
+      if (req.file) {
+        const path = `/images/${req.file.filename}`;
+        equipo.crestUrl = path;
       }
-      const newEquipo = fromDataToEntity(
-        area_name,
-        name,
-        `/images/${req.file.filename}`,
-        address,
-      );
-      await this.clubService.saveEquipo(newEquipo);
-      req.session.messages = [`El equipo ${name} con id ${newEquipo.id} se creo correctamente!`];
+
+      const equipoCreado = await this.clubService.saveEquipo(equipo);
+      if (equipo.id) {
+        req.session.messages = [`El equipo ${equipo.name} se actualizo correctamente`];
+      } else {
+        req.session.messages = [`El equipo: ${equipoCreado.name} con id: ${equipoCreado.id} se creo correctamente`];
+      }
+      res.redirect('/crudClubes');
     } catch (error) {
-      req.session.errors = ['El equipo no se pudo crear correctamente'];
+      req.session.errors = [error.message, error.stack];
+      res.redirect('/crudClubes');
     }
-    res.redirect('/crudClubes');
   }
 
   async clubUpdateGet(req, res) {
@@ -89,7 +92,8 @@ module.exports = class ClubController extends AbstractController {
         id,
       });
     } catch (error) {
-      res.status(400).send('Page /editar not found');
+      req.session.errors = [error.message, error.stack];
+      res.redirect('/crudClubes');
     }
   }
 
