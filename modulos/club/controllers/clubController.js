@@ -31,12 +31,12 @@ module.exports = class ClubController extends AbstractController {
   }
 
   async clubDetails(req, res) {
-    const equipoId = req.params.id;
-    if (equipoId === undefined) {
+    const { id } = req.params;
+    if (id === undefined) {
       throw new ClubIdNotDefinedError();
     }
-    const equipo = await this.clubService.getById(equipoId);
     try {
+      const equipo = await this.clubService.getById(id);
       res.render('crudClubes/ver', {
         layout: 'index',
         style: 'verEquipo.css',
@@ -49,16 +49,17 @@ module.exports = class ClubController extends AbstractController {
 
   clubCreateGet(req, res) {
     try {
-      res.render('crudClubes/agregar', {
+      res.render('crudClubes/form', {
         layout: 'index',
         style: 'agregar.css',
+        title: 'Crear un equipo',
       });
     } catch (error) {
       res.status(400).send('Page /agregar not found');
     }
   }
 
-  async clubCreatePost(req, res) {
+  async clubSave(req, res) {
     try {
       const { name, area_name, address } = req.body;
       if (!name || !area_name || !address) {
@@ -78,55 +79,28 @@ module.exports = class ClubController extends AbstractController {
     res.redirect('/crudClubes');
   }
 
-  clubUpdateGet(req, res) {
-    const equipoId = req.params.id;
+  async clubUpdateGet(req, res) {
+    const { id } = req.params;
     try {
-      res.render('crudClubes/editar', {
+      res.render('crudClubes/form', {
         layout: 'index',
         style: 'editar.css',
-        id: equipoId,
+        title: 'Actualizar un equipo',
+        id,
       });
     } catch (error) {
       res.status(400).send('Page /editar not found');
     }
   }
 
-  async clubUpdatePut(req, res) {
-    const equipoId = req.params.id;
-    if (equipoId === undefined) {
-      throw new ClubIdNotDefinedError();
-    }
-    try {
-      const { name, area_name, address } = req.body;
-      if (!name || !area_name || !address) {
-        res.status(400).send('Faltan campos por completar');
-      }
-      const newEquipo = fromDataToEntity(
-        equipoId,
-        area_name,
-        name,
-        `/images/${req.file.filename}`,
-        address,
-        Date(),
-      );
-      await this.clubService.updateEquipo(newEquipo);
-      req.session.messages = [`El equipo ${name} con id ${equipoId} se actualizo correctamente!`];
-    } catch (error) {
-      req.session.errors = ['No se pudo actualizar el equipo'];
-    }
-    res.redirect('/crudClubes');
-  }
-
   async clubDelete(req, res) {
-    const { id } = req.params;
-    if (id === undefined) {
-      throw new ClubIdNotDefinedError();
-    }
     try {
-      await this.clubService.deleteEquipo(id);
-      req.session.messages = [`El equipo con id ${id} se elimino correctamente!`];
+      const { id } = req.params;
+      const equipo = await this.clubService.getById(id);
+      await this.clubService.deleteEquipo(equipo);
+      req.session.messages = [`El equipo ${equipo.name} con id ${id} se elimino correctamente!`];
     } catch (error) {
-      req.session.errors = ['No se pudo eliminar el equipo'];
+      req.session.errors = ['No se pudo eliminar el equipo', error.message];
     }
     res.redirect('/crudClubes');
   }
