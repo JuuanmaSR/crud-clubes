@@ -33,6 +33,7 @@ bower_components
 build/Release
 
 # Ignore the default SQLite database.
+/data
 data/*.db
 # Dependency directories
 node_modules/
