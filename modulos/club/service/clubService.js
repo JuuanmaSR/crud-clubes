@@ -22,13 +22,6 @@ module.exports = class ClubService {
     return this.clubRepository.save(equipo);
   }
 
-  async updateEquipo(equipo) {
-    if (equipo === undefined) {
-      throw new ClubNotDefinedError();
-    }
-    return this.clubRepository.update(equipo);
-  }
-
   async deleteEquipo(equipoid) {
     if (equipoid === undefined) {
       throw new ClubIdNotDefinedError();

@@ -12,15 +12,13 @@ router.use(container.get('Sessions'));
 
 // Home
 router.get('/', clubController.clubIndex.bind(clubController));
-// Agregar
-router.get('/agregar', clubController.clubCreateGet.bind(clubController));
-router.post('/agregar', upload.single('crestUrl'), clubController.clubCreatePost.bind(clubController));
+// Crear o Editar
+router.get('/crear', clubController.clubCreateGet.bind(clubController));
+router.get('/editar/:id', clubController.clubUpdateGet.bind(clubController));
+router.post('/save', upload.single('crest_url'), clubController.clubSave.bind(clubController));
 // Ver un equipo
 router.get('/ver/:id', clubController.clubDetails.bind(clubController));
 // Elimiar un equipo
 router.get('/eliminar/:id', clubController.clubDelete.bind(clubController));
-// Editar un equipo
-router.get('/editar/:id', clubController.clubUpdateGet.bind(clubController));
-router.put('/editar/:id', upload.single('crestUrl'), clubController.clubUpdatePut.bind(clubController));
 
 module.exports = router;

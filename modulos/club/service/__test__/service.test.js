@@ -5,7 +5,6 @@ const ClubIdNotDefinedError = require('../error/ClubIdNotDefinedError');
 
 const repositoryMock = {
   save: jest.fn(),
-  update: jest.fn(),
   delete: jest.fn(),
   getById: jest.fn(),
   getAll: jest.fn(),
@@ -22,16 +21,6 @@ test('saveEquipo llama al método save del repositorio solo 1 vez', () => {
 test('Llamar a saveEquipo sin pasar un equipo da un error especifico', async () => {
   await expect(service.saveEquipo).rejects.toThrowError(ClubNotDefinedError);
 });
-
-test('updateEquipo llama al metodo update del repositorio solo 1 vez', () => {
-  service.updateEquipo({});
-  expect(repositoryMock.save).toHaveBeenCalledTimes(1);
-});
-
-test('Llamar a updateEquipo sin pasar un equipo da un error especifico', async () => {
-  await expect(service.updateEquipo).rejects.toThrowError(ClubNotDefinedError);
-});
-
 test('deleteEquipo llama al metodo delete del respositorio solo 1 vez', () => {
   service.deleteEquipo({});
   expect(repositoryMock.delete).toHaveBeenCalledTimes(1);
