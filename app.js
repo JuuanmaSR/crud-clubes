@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 require('dotenv').config();
 const express = require('express');
-const methodOverride = require('method-override');
 const path = require('path');
 const exphbs = require('express-handlebars');
 
@@ -17,7 +16,6 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // Middlewares
-app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // Static files
