@@ -22,18 +22,18 @@ module.exports = class ClubService {
     return this.clubRepository.save(equipo);
   }
 
-  async deleteEquipo(equipoid) {
-    if (equipoid === undefined) {
+  async deleteEquipo(equipo) {
+    if (equipo === undefined) {
       throw new ClubIdNotDefinedError();
     }
-    return this.clubRepository.delete(equipoid);
+    return this.clubRepository.delete(equipo);
   }
 
-  async getById(equipoid) {
-    if (equipoid === undefined) {
+  async getById(id) {
+    if (id === undefined) {
       throw new ClubIdNotDefinedError();
     }
-    return this.clubRepository.getById(equipoid);
+    return this.clubRepository.getById(id);
   }
 
   async getAll() {
