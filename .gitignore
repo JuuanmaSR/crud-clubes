@@ -35,6 +35,7 @@ build/Release
 # Ignore the default SQLite database.
 /data
 data/*.db
+data
 # Dependency directories
 node_modules/
 jspm_packages/
