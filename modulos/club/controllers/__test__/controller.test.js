@@ -113,8 +113,9 @@ test('clubDelete intenta borrar un equipo con un id undefined', async () => {
     throw Error('error');
   });
   const redirectMock = jest.fn();
-  const req = { params: { id: undefined }, session: { errors: [] } };
+  const req = { params: { id: 1 }, session: { errors: [] } };
   await controller.clubDelete(req, { redirect: redirectMock });
+
   expect(redirectMock).toHaveBeenCalledTimes(1);
   expect(req.session.errors).not.toEqual([]);
 });
