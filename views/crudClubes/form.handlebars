@@ -1,0 +1,33 @@
+{{>navbar}}
+<div class="container-agregar">
+    <h1>{{title}}</h1>
+   
+    <form class="container-form" action="/crudClubes/save" method="POST" enctype="multipart/form-data" >
+     
+       <input type="hidden" name="id" value="{{id}}" readonly />
+       
+        <div class="mb-3">
+             <label for="formGroupExampleInput2" class="form-label">Pais equipo</label>
+            <input type="text" class="form-control" name="area_name" value="{{equipo.areaName}}" id="formGroupExampleInput2" placeholder="Argentina" required>
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Nombre equipo</label>
+            <input type="text" name="name" class="form-control" value="{{equipo.name}}" id="formGroupExampleInput" placeholder="River" required>
+        </div> 
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Nombre Corto Equipo</label>
+            <input type="text" name="short_name" class="form-control" value="{{equipo.shortName}}" id="formGroupExampleInput" placeholder="CARP" required>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Imagen</label>
+            <input type="file" name="crest_url" class="form-control" id="inputGroupFile01" required>
+        </div>
+       
+        <div class="mb-3">
+             <label for="formGroupExampleInput2" class="form-label">Ubicación equipo</label>
+            <input type="text" class="form-control" name="address" value="{{equipo.address}}" id="formGroupExampleInput2" placeholder="Av.San Martin" required>
+        </div>
+        <input type="submit"  class="btn btn-primary" id="button-agregar">
+    </form>
+   
+</div>
