@@ -8,15 +8,15 @@
        
         <div class="mb-3">
              <label for="formGroupExampleInput2" class="form-label">Pais equipo</label>
-            <input type="text" class="form-control" name="area_name" id="formGroupExampleInput2" placeholder="Argentina" required>
+            <input type="text" class="form-control" name="area_name" value="{{equipo.areaName}}" id="formGroupExampleInput2" placeholder="Argentina" required>
         </div>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Nombre equipo</label>
-            <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="River" required>
+            <input type="text" name="name" class="form-control" value="{{equipo.name}}" id="formGroupExampleInput" placeholder="River" required>
         </div> 
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Nombre Corto Equipo</label>
-            <input type="text" name="short_name" class="form-control" id="formGroupExampleInput" placeholder="CARP" required>
+            <input type="text" name="short_name" class="form-control" value="{{equipo.shortName}}" id="formGroupExampleInput" placeholder="CARP" required>
         </div>
         <div class="input-group mb-3">
             <label class="input-group-text" for="inputGroupFile01">Imagen</label>
@@ -25,7 +25,7 @@
        
         <div class="mb-3">
              <label for="formGroupExampleInput2" class="form-label">Ubicación equipo</label>
-            <input type="text" class="form-control" name="address" id="formGroupExampleInput2" placeholder="Av.San Martin" required>
+            <input type="text" class="form-control" name="address" value="{{equipo.address}}" id="formGroupExampleInput2" placeholder="Av.San Martin" required>
         </div>
         <input type="submit"  class="btn btn-primary" id="button-agregar">
     </form>

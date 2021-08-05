@@ -10,15 +10,12 @@ const router = express.Router();
 
 router.use(container.get('Sessions'));
 
-// Home
+// Home // ClubController //
 router.get('/', clubController.clubIndex.bind(clubController));
-// Crear o Editar
 router.get('/crear', clubController.clubCreateGet.bind(clubController));
 router.get('/editar/:id', clubController.clubUpdateGet.bind(clubController));
 router.post('/save', upload.single('crest_url'), clubController.clubSave.bind(clubController));
-// Ver un equipo
 router.get('/ver/:id', clubController.clubDetails.bind(clubController));
-// Elimiar un equipo
 router.get('/eliminar/:id', clubController.clubDelete.bind(clubController));
 
 module.exports = router;

@@ -61,6 +61,23 @@ module.exports = class ClubController extends AbstractController {
     }
   }
 
+  async clubUpdateGet(req, res) {
+    const { id } = req.params;
+    const equipo = await this.clubService.getById(id);
+    try {
+      res.render('crudClubes/form', {
+        layout: 'index',
+        style: 'form.css',
+        title: 'Actualizar un equipo',
+        id,
+        equipo,
+      });
+    } catch (error) {
+      req.session.errors = [error.message, error.stack];
+      res.redirect('/crudClubes');
+    }
+  }
+
   async clubSave(req, res) {
     try {
       const equipo = fromDataToEntity(req.body);
@@ -76,21 +93,6 @@ module.exports = class ClubController extends AbstractController {
         req.session.messages = [`El equipo: ${equipoCreado.name} con id: ${equipoCreado.id} se creo correctamente`];
       }
       res.redirect('/crudClubes');
-    } catch (error) {
-      req.session.errors = [error.message, error.stack];
-      res.redirect('/crudClubes');
-    }
-  }
-
-  async clubUpdateGet(req, res) {
-    const { id } = req.params;
-    try {
-      res.render('crudClubes/form', {
-        layout: 'index',
-        style: 'form.css',
-        title: 'Actualizar un equipo',
-        id,
-      });
     } catch (error) {
       req.session.errors = [error.message, error.stack];
       res.redirect('/crudClubes');

@@ -88,12 +88,14 @@ test('clubUpdateGet renderea un form y utiliza un id para pasarlo como parametro
   const renderMock = jest.fn();
   const id = 1;
   await controller.clubUpdateGet({ params: { id } }, { render: renderMock });
+  const equipo = await serviceMock.getById(id);
   expect(renderMock).toHaveBeenCalledTimes(1);
   expect(renderMock).toHaveBeenCalledWith('crudClubes/form', {
     layout: 'index',
     style: 'form.css',
     title: 'Actualizar un equipo',
     id,
+    equipo,
   });
 });
 
