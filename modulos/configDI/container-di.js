@@ -4,11 +4,25 @@ const {
   default: DIContainer, object, get, factory,
 } = require('rsdi');
 
+const { Sequelize } = require('sequelize');
 const session = require('express-session');
 const multer = require('multer');
 const Sqlite3Database = require('better-sqlite3');
 
 const { ClubController, ClubService, ClubRepository } = require('../club/module');
+
+async function configureSequelizeMainDatabase() {
+  const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: `${process.env.SQLITE_DB_PATH}`,
+  });
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
 
 function configureMainDatabaseAdapter() {
   return new Sqlite3Database(process.env.SQLITE_DB_PATH, {
