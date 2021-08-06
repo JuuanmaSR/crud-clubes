@@ -4,110 +4,64 @@
 const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
 const ClubNotFoundError = require('./error/clubNotFoundError');
 const AbstractRepository = require('../../abstractRepository');
-const { fromDbToEntity } = require('../mapper/equipoMapper');
+const { fromModelToEntity } = require('../mapper/equipoMapper');
 /* eslint-disable eqeqeq */
 module.exports = class ClubRepository extends AbstractRepository {
   /**
-   *
-   * @param {import('better-sqlite3').Database} databaseAdapter
-   */
-  constructor(databaseAdapter) {
+  *
+  * @param {typeof import('../model/equipoModel')} EquipoModel
+  */
+  constructor(EquipoModel) {
     super();
-    this.databaseAdapter = databaseAdapter;
+    this.equipoModel = EquipoModel;
+  }
+
+  /**
+   *
+   * @param {import('../entidades/equipo')} equipo
+   * @returns {Promise<import('../entidades/equipo')>}
+   */
+  async save(equipo) {
+    let equipoModel;
+
+    const buildOptions = { isNewRecord: !equipo.id };
+    equipoModel = this.equipoModel.build(equipo, buildOptions);
+    equipoModel = await equipoModel.save();
+
+    return fromModelToEntity(equipoModel);
   }
 
   /**
   *
   * @param {import('../entidades/equipo')} equipo
+  * @returns {Promise<Boolean>}
   */
-  save(equipo) {
-    let id;
-    const isUpdate = equipo.id;
-
-    if (isUpdate) {
-      id = equipo.id;
-      const statement = this.databaseAdapter.prepare(
-        `UPDATE equipos SET
-        ${equipo.crestUrl ? 'crest_url= ?,' : ''}
-        area_name = ?,
-        name = ?,
-        short_name = ?,
-        address = ?
-        WHERE id = ?
-        `);
-      const params = [
-
-        equipo.areaName,
-        equipo.name,
-        equipo.shortName,
-        equipo.address,
-        equipo.id,
-      ];
-      if (equipo.crestUrl) {
-        params.unshift(equipo.crestUrl);
-      }
-      statement.run(params);
-    } else {
-      const statement = this.databaseAdapter.prepare(`
-      INSERT INTO equipos(
-        area_name,
-        name,
-        short_name,
-        crest_url,
-        address
-      ) VALUES(?,?,?,?,?)
-    `);
-      const result = statement.run(
-        equipo.areaName,
-        equipo.name,
-        equipo.shortName,
-        equipo.crestUrl,
-        equipo.address,
-      );
-      id = result.lastInsertRowid;
-    }
-    return this.getById(id);
-  }
-
-  delete(equipo) {
+  async delete(equipo) {
     if (!equipo || !equipo.id) {
-      throw new ClubIdNotDefinedError('El ID del equipo no esta definido');
+      throw new ClubIdNotDefinedError();
     }
-    this.databaseAdapter.prepare('DELETE FROM equipos WHERE id= ?').run(equipo.id);
-    return true;
+
+    return Boolean(await this.equipoModel.destroy({ where: { id: equipo.id } }));
   }
 
-  getAll() {
-    const equipos = this.databaseAdapter
-      .prepare(
-        `SELECT 
-        id,
-        area_name,
-        name,
-        short_name,
-        crest_url,
-        address
-        FROM equipos`,
-      )
-      .all();
+  /**
+   *
+   * @param {Number} id
+   */
+  async getById(id) {
+    const equipoModel = await this.equipoModel.findOne({
+      where: { id }
+    });
 
-    return equipos.map((equipoData) => fromDbToEntity(equipoData));
+    if (!equipoModel) {
+      throw new ClubNotFoundError(`No se encontro el equipo con id: ${id}`);
+    }
+
+    return fromModelToEntity(equipoModel);
   }
 
-  getById(id) {
-    const equipo = this.databaseAdapter
-      .prepare(`
-      SELECT 
-      id,
-      area_name,
-      name,
-      short_name,
-      crest_url,
-      address
-      FROM equipos WHERE id = ?`).get(id);
-    if (equipo === undefined) {
-      throw new ClubNotFoundError(`No se encontro el equipo con Id: ${id}`);
-    }
-    return fromDbToEntity(equipo);
+  async getAll() {
+    const equipos = await this.equipoModel.findAll();
+    return equipos.map(fromModelToEntity);
   }
 };
