@@ -7,27 +7,23 @@ const {
 const { Sequelize } = require('sequelize');
 const session = require('express-session');
 const multer = require('multer');
-const Sqlite3Database = require('better-sqlite3');
 
-const { ClubController, ClubService, ClubRepository } = require('../club/module');
+const {
+  ClubController, ClubService, ClubRepository, EquipoModel,
+} = require('../club/module');
 
-async function configureSequelizeMainDatabase() {
+function configureSequelizeMainDatabase() {
   const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: `${process.env.SQLITE_DB_PATH}`,
+    storage: process.env.SQLITE_DB_PATH,
   });
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+  sequelize.sync();
+  return sequelize;
 }
 
-function configureMainDatabaseAdapter() {
-  return new Sqlite3Database(process.env.SQLITE_DB_PATH, {
-    verbose: console.log,
-  });
+function configureEquipoModel(container) {
+  EquipoModel.setup(container.get('Sequelize'));
+  return EquipoModel;
 }
 
 function configureMulter() {
@@ -68,10 +64,9 @@ function configureSession() {
 
 function addCommonDefinitions(container) {
   container.addDefinitions({
+    Sequelize: factory(configureSequelizeMainDatabase),
     Multer: factory(configureMulter),
     Sessions: factory(configureSession),
-    MainDatabase: factory(configureMainDatabaseAdapter),
-
   });
 }
 
@@ -79,7 +74,8 @@ function addClubModulesDefinition(container) {
   container.addDefinitions({
     ClubController: object(ClubController).construct(get('ClubService')),
     ClubService: object(ClubService).construct(get('ClubRepository')),
-    ClubRepository: object(ClubRepository).construct(get('MainDatabase')),
+    ClubRepository: object(ClubRepository).construct(get('EquipoModel')),
+    EquipoModel: factory(configureEquipoModel),
   });
 }
 
